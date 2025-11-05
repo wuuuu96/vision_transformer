@@ -1,6 +1,7 @@
 # Vision Transformer 和 MLP-Mixer 架构
 
 In this repository we release models from the papers
+
 在本仓库中，我们发布了这些论文中所使用的模型。
 
 - (ViT) [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929)
@@ -14,6 +15,9 @@ The models were pre-trained on the [ImageNet](http://www.image-net.org/) and
 [ImageNet-21k](http://www.image-net.org/) datasets. We provide the code for
 fine-tuning the released models in
 [JAX](https://jax.readthedocs.io)/[Flax](http://flax.readthedocs.io).
+
+这些模型在 [ImageNet](http://www.image-net.org/) 和 ImageNet-21k(http://www.image-net.org/) 数据集上进行了预训练。
+我们提供了基于 [JAX](https://jax.readthedocs.io)/ [Flax](http://flax.readthedocs.io) 框架的模型微调代码。
 
 The models from this codebase were originally trained in
 https://github.com/google-research/big_vision/
