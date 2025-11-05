@@ -29,7 +29,7 @@ configs/transfer.py
 目录:
 
 - [视觉Transformer和MLP-Mixer架构](#vision-transformer-and-mlp-mixer-architectures)
-	- [Colab在线运行](#Colab（交互式运行环境）)
+	- [Colab在线运行](#Colab)
 	- [安装步骤](#installation)
 	- [微调模型](#fine-tuning-a-model)
 	- [视觉Transformer（ViT）模型](#vision-transformer)
@@ -47,7 +47,7 @@ configs/transfer.py
 	- [更新日志](#changelog)
 
 
-## Colab（交互式运行环境）
+## Colab
 
 Below Colabs run both with GPUs, and TPUs (8 cores, data parallelism).
 
