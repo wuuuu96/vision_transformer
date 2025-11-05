@@ -54,6 +54,7 @@ configs/transfer.py
 🔹第一个 Colab
 
 演示了 Vision Transformer (ViT) 和 MLP-Mixer 的 JAX 实现代码。
+
 在这个 Colab 中，你可以：
 
 直接在 Colab 界面中编辑仓库中的文件；
@@ -72,6 +73,22 @@ popular [`timm`] PyTorch library that can directly load these checkpoints as
 well. Note that a handful of models are also available directly from TF-Hub:
 [sayakpaul/collections/vision_transformer] (external contribution by [Sayak
 Paul]).
+
+🔹第二个 Colab
+
+该示例用于探索超过 5 万个 Vision Transformer 与混合模型（hybrid）检查点（checkpoints），这些模型是论文
+《How to train your ViT? ...》
+中生成实验数据所用的模型。
+
+该 Colab 包含以下功能：
+
+提供 检查点浏览与选择 的代码；
+
+支持使用本仓库中的 JAX 代码 或 PyTorch 的 [timm] 库 进行推理（timm 可直接加载这些模型）；
+
+部分模型也已直接发布在 TensorFlow Hub 上（由 [Sayak Paul] 提供的外部贡献），例如
+sayakpaul/collections/vision_transformer
+
 
 The second Colab also lets you fine-tune the checkpoints on any tfds dataset
 and your own dataset with examples in individual JPEG files (optionally directly
