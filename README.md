@@ -1,7 +1,5 @@
 # Vision Transformer 和 MLP-Mixer 架构
 
-In this repository we release models from the papers
-
 在本仓库中，我们发布了这些论文中所使用的模型。
 
 - (ViT) [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929)
@@ -11,13 +9,10 @@ In this repository we release models from the papers
 - (LiT) [LiT: Zero-Shot Transfer with Locked-image text Tuning](https://arxiv.org/abs/2111.07991)
 - [Surrogate Gap Minimization Improves Sharpness-Aware Training](https://arxiv.org/abs/2203.08065)
 
-The models were pre-trained on the [ImageNet](http://www.image-net.org/) and
-[ImageNet-21k](http://www.image-net.org/) datasets. We provide the code for
-fine-tuning the released models in
-[JAX](https://jax.readthedocs.io)/[Flax](http://flax.readthedocs.io).
 
-这些模型在 [ImageNet](http://www.image-net.org/) 和 ImageNet-21k(http://www.image-net.org/) 数据集上进行了预训练。
-我们提供了基于 [JAX](https://jax.readthedocs.io)/ [Flax](http://flax.readthedocs.io) 框架的模型微调代码。
+这些模型在 [ImageNet](http://www.image-net.org/) 和 [ImageNet-21k](http://www.image-net.org/) 数据集上进行了预训练。
+
+使用 [JAX](https://jax.readthedocs.io) 和 [Flax](http://flax.readthedocs.io) 框架编写的源代码，并且在已有预训练模型的基础上继续微调训练，以适配新的任务或数据集。
 
 The models from this codebase were originally trained in
 https://github.com/google-research/big_vision/
@@ -27,6 +22,17 @@ some of the original training scripts (e.g.
 for pre-training a ViT, or
 [configs/transfer.py](https://github.com/google-research/big_vision/blob/main/big_vision/configs/transfer.py)
 for transfering a model).
+
+这些模型最初是在以下代码库中训练的：
+👉 https://github.com/google-research/big_vision/
+
+在那里，你可以找到更高级的代码（例如 多主机训练（multi-host training）），以及一些最初的训练脚本，例如：
+
+configs/vit_i21k.py
+：用于 预训练 ViT（Vision Transformer）模型；
+
+configs/transfer.py
+：用于 迁移已有模型（transfer learning）。
 
 Table of contents:
 
