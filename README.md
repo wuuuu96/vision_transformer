@@ -84,10 +84,10 @@ Paul]).
 
 提供 检查点浏览与选择 的代码；
 
-支持使用本仓库中的 JAX 代码 或 PyTorch 的 [timm] 库 进行推理（timm 可直接加载这些模型）；
+支持使用本仓库中的 JAX 代码 或 PyTorch 的 [`timm`] 库进行推理（timm 可直接加载这些模型）；
 
 部分模型也已直接发布在 TensorFlow Hub 上（由 [Sayak Paul] 提供的外部贡献），例如
-sayakpaul/collections/vision_transformer
+[sayakpaul/collections/vision_transformer]
 
 
 The second Colab also lets you fine-tune the checkpoints on any tfds dataset
