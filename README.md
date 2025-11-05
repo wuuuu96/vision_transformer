@@ -14,17 +14,9 @@
 
 使用 [JAX](https://jax.readthedocs.io) 和 [Flax](http://flax.readthedocs.io) 框架编写的源代码，并且在已有预训练模型的基础上继续微调训练，以适配新的任务或数据集。
 
-The models from this codebase were originally trained in
-https://github.com/google-research/big_vision/
-where you can find more advanced code (e.g. multi-host training), as well as
-some of the original training scripts (e.g.
-[configs/vit_i21k.py](https://github.com/google-research/big_vision/blob/main/big_vision/configs/vit_i21k.py)
-for pre-training a ViT, or
-[configs/transfer.py](https://github.com/google-research/big_vision/blob/main/big_vision/configs/transfer.py)
-for transfering a model).
 
-这些模型最初是在以下代码库中训练的：
-👉 https://github.com/google-research/big_vision/
+
+这些模型最初是在以下代码库中训练的：👉 https://github.com/google-research/big_vision/
 
 在那里，你可以找到更高级的代码（例如 多主机训练（multi-host training）），以及一些最初的训练脚本，例如：
 
@@ -34,28 +26,28 @@ configs/vit_i21k.py
 configs/transfer.py
 ：用于 迁移已有模型（transfer learning）。
 
-Table of contents:
+目录:
 
-- [Vision Transformer and MLP-Mixer Architectures](#vision-transformer-and-mlp-mixer-architectures)
-	- [Colab](#colab)
-	- [Installation](#installation)
-	- [Fine-tuning a model](#fine-tuning-a-model)
-	- [Vision Transformer](#vision-transformer)
-		- [Available ViT models](#available-vit-models)
-		- [Expected ViT results](#expected-vit-results)
-	- [MLP-Mixer](#mlp-mixer)
-		- [Available Mixer models](#available-mixer-models)
-		- [Expected Mixer results](#expected-mixer-results)
-	- [LiT models](#lit-models)
-	- [Running on cloud](#running-on-cloud)
-		- [Create a VM](#create-a-vm)
-		- [Setup VM](#setup-vm)
-	- [Bibtex](#bibtex)
-	- [Disclaimers](#disclaimers)
-	- [Changelog](#changelog)
+- [视觉Transformer和MLP-Mixer架构](#vision-transformer-and-mlp-mixer-architectures)
+	- [Colab在线运行](#colab)
+	- [安装步骤](#installation)
+	- [微调模型](#fine-tuning-a-model)
+	- [视觉Transformer（ViT）模型](#vision-transformer)
+		- [可用的ViT模型](#available-vit-models)
+		- [ViT的预期结果](#expected-vit-results)
+	- [MLP-Mixer模型](#mlp-mixer)
+		- [可用的Mixer模型](#available-mixer-models)
+		- [Mixer的预期结果](#expected-mixer-results)
+	- [LiT模型](#lit-models)
+	- [云端运行](#running-on-cloud)
+		- [创建虚拟机](#create-a-vm)
+		- [配置虚拟机](#setup-vm)
+	- [参考文献BibTeX条目](#bibtex)
+	- [免责声明](#disclaimers)
+	- [更新日志](#changelog)
 
 
-## Colab
+## 🧩 Colab（交互式运行环境）
 
 Below Colabs run both with GPUs, and TPUs (8 cores, data parallelism).
 
