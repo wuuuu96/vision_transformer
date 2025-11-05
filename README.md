@@ -49,12 +49,18 @@ configs/transfer.py
 
 ## Colab
 
-Below Colabs run both with GPUs, and TPUs (8 cores, data parallelism).
+以下两个 Colab 示例都可以在 GPU 或 TPU（8 核数据并行） 环境下运行。
 
-The first Colab demonstrates the JAX code of Vision Transformers and MLP Mixers.
-This Colab allows you to edit the files from the repository directly in the
-Colab UI and has annotated Colab cells that walk you through the code step by
-step, and lets you interact with the data.
+🔹第一个 Colab
+
+演示了 Vision Transformer (ViT) 和 MLP-Mixer 的 JAX 实现代码。
+在这个 Colab 中，你可以：
+
+直接在 Colab 界面中编辑仓库中的文件；
+
+通过带注释的代码单元格（annotated cells）逐步学习代码逻辑；
+
+交互式地操作与可视化数据。
 
 https://colab.research.google.com/github/google-research/vision_transformer/blob/main/vit_jax.ipynb
 
