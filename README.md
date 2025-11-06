@@ -299,33 +299,31 @@ wget https://storage.googleapis.com/vit_models/imagenet21k/ViT-B_16.npz
 
 ## MLP-Mixer
 
-by Ilya Tolstikhin\*, Neil Houlsby\*, Alexander Kolesnikov\*, Lucas Beyer\*,
-Xiaohua Zhai, Thomas Unterthiner, Jessica Yung, Andreas Steiner, Daniel Keysers,
-Jakob Uszkoreit, Mario Lucic, Alexey Dosovitskiy.
+作者：Ilya Tolstikhin*、Neil Houlsby*、Alexander Kolesnikov*、Lucas Beyer*、
+Xiaohua Zhai、Thomas Unterthiner、Jessica Yung、Andreas Steiner、Daniel Keysers、
+Jakob Uszkoreit、Mario Lucic、Alexey Dosovitskiy。
 
-(\*) equal contribution.
+（*）表示技术贡献相同。
 
 ![Figure 1 from paper](mixer_figure.png)
 
-MLP-Mixer (*Mixer* for short) consists of per-patch linear embeddings, Mixer
-layers, and a classifier head. Mixer layers contain one token-mixing MLP and one
-channel-mixing MLP, each consisting of two fully-connected layers and a GELU
-nonlinearity. Other components include: skip-connections, dropout, and linear
-classifier head.
+MLP-Mixer（简称 Mixer）由每个图像块的线性嵌入（per-patch linear embeddings）、Mixer 层和分类头（classifier head）组成。
+Mixer 层包含一个 token-mixing MLP 和一个 channel-mixing MLP，每个 MLP 由两层全连接层和一个 GELU 非线性激活函数组成。
+其他组成部分包括：跳跃连接（skip-connections）、dropout 和 线性分类头（linear classifier head）。
 
-For installation follow [the same steps](#installation) as above.
+安装步骤请参考上面的 [the same steps](#installation)
 
 ### Available Mixer models
 
-We provide the Mixer-B/16 and Mixer-L/16 models pre-trained on the ImageNet and
-ImageNet-21k datasets. Details can be found in Table 3 of the Mixer paper. All
-the models can be found at:
+我们提供了在 ImageNet 和 ImageNet-21k 数据集上预训练的 Mixer-B/16 和 Mixer-L/16 模型。
+详细信息可以在 Mixer 论文的第 3 表 中找到。
+所有模型可以在以下链接下载：
 
 https://console.cloud.google.com/storage/mixer_models/
 
-Note that these models are also available directly from TF-Hub:
-[sayakpaul/collections/mlp-mixer] (external contribution by [Sayak
-Paul]).
+请注意，这些模型也可以直接从 TF-Hub 获取:
+[sayakpaul/collections/mlp-mixer] (由 [Sayak
+Paul]提供的外部贡献).
 
 [sayakpaul/collections/mlp-mixer]: https://tfhub.dev/sayakpaul/collections/mlp-mixer
 
