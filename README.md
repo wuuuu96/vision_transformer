@@ -122,26 +122,22 @@ pip install -r vit_jax/requirements.txt
 pip install -r vit_jax/requirements-tpu.txt
 ```
 
-对于新版的 [JAX](https://github.com/google/jax), follow the instructions
-provided in the corresponding repository linked here. Note that installation
-instructions for CPU, GPU and TPU differs slightly.
+对于新版的 [JAX](https://github.com/google/jax), 请按照该仓库中提供的安装说明进行操作。
 
-Install [Flaxformer](https://github.com/google/flaxformer), follow the instructions
-provided in the corresponding repository linked here.
+需要注意的是，CPU、GPU 和 TPU 的安装步骤略有不同。
 
-For more details refer to the section [Running on cloud](#running-on-cloud)
-below.
+安装 [Flaxformer](https://github.com/google/flaxformer), 同样请遵循其对应仓库中的安装说明。
+
+如需了解更多详情，请参考下文的云端运行部分 [Running on cloud](#running-on-cloud)
+
 
 
 ## Fine-tuning a model
 
-You can run fine-tuning of the downloaded model on your dataset of interest. All
-models share the same command line interface.
+你可以在自己感兴趣的数据集上对下载的模型进行微调（fine-tuning）。所有模型都使用相同的命令行接口。
 
-For example for fine-tuning a ViT-B/16 (pre-trained on imagenet21k) on CIFAR10
-(note how we specify `b16,cifar10` as arguments to the config, and how we
-instruct the code to access the models directly from a GCS bucket instead of
-first downloading them into the local directory):
+例如，要在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型
+（请注意，我们在配置参数中使用了 b16,cifar10，并通过 --config.pretrained_dir 让代码直接从 GCS 云端存储桶 读取模型，而不是先下载到本地目录）：
 
 ```bash
 python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
