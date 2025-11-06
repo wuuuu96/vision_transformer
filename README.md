@@ -65,14 +65,6 @@ configs/transfer.py
 
 https://colab.research.google.com/github/google-research/vision_transformer/blob/main/vit_jax.ipynb
 
-The second Colab allows you to explore the >50k Vision Transformer and hybrid
-checkpoints that were used to generate the data of the third paper "How to train
-your ViT? ...". The Colab includes code to explore and select checkpoints, and
-to do inference both using the JAX code from this repo, and also using the
-popular [`timm`] PyTorch library that can directly load these checkpoints as
-well. Note that a handful of models are also available directly from TF-Hub:
-[sayakpaul/collections/vision_transformer] (external contribution by [Sayak
-Paul]).
 
 🔹第二个 Colab
 
@@ -90,19 +82,30 @@ Paul]).
 [sayakpaul/collections/vision_transformer]
 
 
-The second Colab also lets you fine-tune the checkpoints on any tfds dataset
-and your own dataset with examples in individual JPEG files (optionally directly
-reading from Google Drive).
+此外，该 Colab 还支持：
+
+对这些预训练检查点进行微调（fine-tuning）；
+
+支持任意 tfds 数据集 或 你自己的 JPEG 图像数据集（可直接从 Google Drive 读取）。
 
 https://colab.research.google.com/github/google-research/vision_transformer/blob/main/vit_jax_augreg.ipynb
 
-**Note**: As for now (6/20/21) Google Colab only supports a single GPU (Nvidia
+****: As for now (6/20/21) Google Colab only supports a single GPU (Nvidia
 Tesla T4), and TPUs (currently TPUv2-8) are attached indirectly to the Colab VM
 and communicate over slow network, which leads to pretty bad training speed. You
 would usually want to set up a dedicated machine if you have a non-trivial
 amount of data to fine-tune on. For details see the
 [Running on cloud](#running-on-cloud) section.
 
+⚠️ 注意事项（截至 2021 年 6 月 20 日）
+
+Google Colab 当前仅支持单个 GPU（NVIDIA Tesla T4）；
+
+TPU（TPUv2-8） 与 Colab 虚拟机是通过网络间接连接的，通信延迟较高，导致训练速度较慢；
+
+若你的微调任务涉及大量数据，建议搭建独立服务器或云端实例；
+
+具体部署方式详见章节(#running-on-cloud)
 
 [`timm`]: https://github.com/rwightman/pytorch-image-models
 [sayakpaul/collections/vision_transformer]: https://tfhub.dev/sayakpaul/collections/vision_transformer
