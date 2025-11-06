@@ -329,8 +329,7 @@ Paul]提供的外部贡献).
 
 ### Expected Mixer results
 
-We ran the fine-tuning code on Google Cloud machine with four V100 GPUs with the
-default adaption parameters from this repository. Here are the results:
+我们在 Google Cloud 的四个 V100 GPU 机器上运行了微调代码，使用了该仓库中的默认适配参数。以下是结果：
 
 upstream     | model      | dataset | accuracy | wall_clock_time | link
 :----------- | :--------- | :------ | -------: | :-------------- | :---
@@ -342,36 +341,32 @@ ImageNet-21k | Mixer-L/16 | cifar10 | 98.34%   | 10.0h           | [tensorboard.
 
 ## LiT models
 
-For details, refer to the Google AI blog post
+有关详细信息，请参考 Google AI 博客文章
 [LiT: adding language understanding to image models](http://ai.googleblog.com/2022/04/locked-image-tuning-adding-language.html),
-or read the CVPR paper "LiT: Zero-Shot Transfer with Locked-image text Tuning"
+或阅读 CVPR 论文 "LiT: Zero-Shot Transfer with Locked-image text Tuning"
 (https://arxiv.org/abs/2111.07991).
 
-We published a Transformer B/16-base model with an ImageNet zeroshot accuracy of
-72.1%, and a L/16-large model with an ImageNet zeroshot accuracy of 75.7%. For
-more details about these models, please refer to the
-[LiT model card](model_cards/lit.md).
+我们发布了一个 Transformer B/16-base 模型，具有 72.1% 的 ImageNet 零-shot 准确率，
+以及一个 L/16-large 模型，具有 75.7% 的 ImageNet 零-shot 准确率。
+有关这些模型的更多详情，请参阅[LiT model card](model_cards/lit.md).
 
-We provide a in-browser demo with small text encoders for interactive use (the
-smallest models should even run on a modern cell phone):
+我们提供了一个浏览器内的演示，使用了小型文本编码器，供交互式使用（最小的模型甚至可以在现代手机上运行）:
 
 https://google-research.github.io/vision_transformer/lit/
 
-And finally a Colab to use the JAX models with both image and text encoders:
+最后，我们提供了一个 Colab 示例，展示如何使用 JAX 模型，结合图像和文本编码器：
 
 https://colab.research.google.com/github/google-research/vision_transformer/blob/main/lit.ipynb
 
-Note that none of above models support multi-lingual inputs yet, but we're
-working on publishing such models and will update this repository once they
-become available.
+请注意，以上模型尚不支持多语言输入，但我们正在努力发布此类模型，并将在它们可用时更新本仓库。
 
-This repository only contains evaluation code for LiT models. You can find the
-training code in the `big_vision` repository:
+本仓库仅包含 LiT 模型的评估代码。训练代码可以在 `big_vision` 仓库中找到：
 
 https://github.com/google-research/big_vision/tree/main/big_vision/configs/proj/image_text
 
-Expected zeroshot results from [`model_cards/lit.md`] (note that the zeroshot
-evaluation is slightly different from the simplified evaluation in the Colab):
+预计的零-shot 结果可以在 [`model_cards/lit.md`] 中找到（请注意，零-shot 评估与 Colab 中简化的评估略有不同）：
+
+**零-shot 准确率：该模型在不同任务（如分类、检索）上不需要额外的训练就能达到的准确率。**
 
 | Model | B16B_2 | L16L |
 | :--- | ---: | ---: |
@@ -385,27 +380,28 @@ evaluation is slightly different from the simplified evaluation in the Colab):
 
 ## Running on cloud
 
-While above [colabs](#colab) are pretty useful to get started, you would usually
-want to train on a larger machine with more powerful accelerators.
+虽然上面的 [colabs](#colab) 非常适合入门，但通常你可能希望在更强大的机器上进行训练，使用更多的加速器（如 GPU 或 TPU）。
 
 ### Create a VM
 
-You can use the following commands to setup a VM with GPUs on Google Cloud:
+你可以使用以下命令在 Google Cloud 上设置一个带 GPU 的虚拟机（VM）：
+
+**提供了如何在 Google Cloud 上设置并管理一个 GPU 虚拟机的详细步骤，命令如下:**
 
 ```bash
-# Set variables used by all commands below.
-# Note that project must have accounting set up.
-# For a list of zones with GPUs refer to
+# 设置所有命令使用的变量。
+# 请注意，项目必须已启用账单。
+# 有关带 GPU 的区域列表，请参考
 # https://cloud.google.com/compute/docs/gpus/gpu-regions-zones
-PROJECT=my-awesome-gcp-project  # Project must have billing enabled.
+PROJECT=my-awesome-gcp-project  # Project must have billing enabled. # 项目必须启用账单。
 VM_NAME=vit-jax-vm-gpu
 ZONE=europe-west4-b
 
-# Below settings have been tested with this repository. You can choose other
-# combinations of images & machines (e.g.), refer to the corresponding gcloud commands:
+# 以下设置已通过该仓库进行测试。你可以选择其他
+# 镜像和机器类型的组合（例如），参考以下 gcloud 命令：
 # gcloud compute images list --project ml-images
 # gcloud compute machine-types list
-# etc.
+# 等等。
 gcloud compute instances create $VM_NAME \
     --project=$PROJECT --zone=$ZONE \
     --image=c1-deeplearning-tf-2-5-cu110-v20210527-debian-10 \
@@ -415,18 +411,17 @@ gcloud compute instances create $VM_NAME \
     --maintenance-policy=TERMINATE \
     --accelerator=type=nvidia-tesla-v100,count=8
 
-# Connect to VM (after some minutes needed to setup & start the machine).
+# 在设置并启动虚拟机几分钟后，连接到虚拟机。
 gcloud compute ssh --project $PROJECT --zone $ZONE $VM_NAME
 
-# Stop the VM after use (only storage is billed for a stopped VM).
+# 使用后停止虚拟机（停止的虚拟机只会产生存储费用）。
 gcloud compute instances stop --project $PROJECT --zone $ZONE $VM_NAME
 
-# Delete VM after use (this will also remove all data stored on VM).
+# 使用后删除虚拟机（这将删除虚拟机上存储的所有数据）。
 gcloud compute instances delete --project $PROJECT --zone $ZONE $VM_NAME
 ```
 
-Alternatively, you can use the following similar commands to set up a Cloud VM
-with TPUs attached to them (below commands copied from the [TPU tutorial]):
+可以使用以下类似的命令来创建一个带 TPU 的云虚拟机（VM）。下面的命令来自TPU教程 [TPU tutorial]):
 
 [TPU tutorial]: https://cloud.google.com/tpu/docs/jax-quickstart-tpu-vm
 
@@ -435,29 +430,28 @@ PROJECT=my-awesome-gcp-project  # Project must have billing enabled.
 VM_NAME=vit-jax-vm-tpu
 ZONE=europe-west4-a
 
-# Required to set up service identity initially.
+# 初始设置时需要创建服务身份。
 gcloud beta services identity create --service tpu.googleapis.com
 
-# Create a VM with TPUs directly attached to it.
+# 创建一个直接连接 TPU 的虚拟机。
 gcloud alpha compute tpus tpu-vm create $VM_NAME \
     --project=$PROJECT --zone=$ZONE \
     --accelerator-type v3-8 \
     --version tpu-vm-base
 
-# Connect to VM (after some minutes needed to setup & start the machine).
+# 连接到虚拟机（设置和启动机器需要一些时间）。
 gcloud alpha compute tpus tpu-vm ssh --project $PROJECT --zone $ZONE $VM_NAME
 
-# Stop the VM after use (only storage is billed for a stopped VM).
+# 使用后停止虚拟机（停止后的虚拟机只会产生存储费用）。
 gcloud alpha compute tpus tpu-vm stop --project $PROJECT --zone $ZONE $VM_NAME
 
-# Delete VM after use (this will also remove all data stored on VM).
+# 使用后删除虚拟机（这将删除虚拟机上存储的所有数据）。
 gcloud alpha compute tpus tpu-vm delete --project $PROJECT --zone $ZONE $VM_NAME
 ```
 
 ### Setup VM
 
-And then fetch the repository and the install dependencies (including `jaxlib`
-with TPU support) as usual:
+然后，你可以像往常一样获取仓库并安装依赖 (包括带有 TPU 支持的 `jaxlib`) :
 
 ```bash
 git clone --depth=1 --branch=master https://github.com/google-research/vision_transformer
@@ -469,33 +463,31 @@ python3 -m virtualenv env
 . env/bin/activate
 ```
 
-If you're connected to a VM with GPUs attached, install JAX and other dependencies with the following
-command:
+如果你连接到带有 GPU 的虚拟机，使用以下命令安装 JAX 和其他依赖：
 
 ```bash
 pip install -r vit_jax/requirements.txt
 ```
 
-If you're connected to a VM with TPUs attached, install JAX and other dependencies with the following
-command:
+如果你连接到带有 TPU 的虚拟机，使用以下命令安装 JAX 和其他依赖：
 
 ```bash
 pip install -r vit_jax/requirements-tpu.txt
 ```
 
-Install [Flaxformer](https://github.com/google/flaxformer), follow the instructions
-provided in the corresponding repository linked here.
+安装 [Flaxformer](https://github.com/google/flaxformer), 并按照相应仓库中的安装说明进行操作。
 
-For both GPUs and TPUs, Check that JAX can connect to attached accelerators with the command:
+对于 GPU 和 TPU，可以通过以下命令检查 JAX 是否能连接到已附加的加速器：
 ```bash
 python -c 'import jax; print(jax.devices())'
 ```
 
-And finally execute one of the commands mentioned in the section
-[fine-tuning a model](#fine-tuning-a-model).
+最后，执行[fine-tuning a model](#fine-tuning-a-model)部分提到的命令
 
 
 ## Bibtex
+
+**引用论文**
 
 ```
 @article{dosovitskiy2020vit,
@@ -604,10 +596,10 @@ In reverse chronological order:
 
 Open source release prepared by Andreas Steiner.
 
-Note: This repository was forked and modified from
-[google-research/big_transfer](https://github.com/google-research/big_transfer).
+注意：本仓库是从
+[google-research/big_transfer](https://github.com/google-research/big_transfer)分叉并修改而来的。
 
-**This is not an official Google product.**
+**这不是一个官方的 Google 产品。**
 
 
 [GSAM]: https://arxiv.org/abs/2203.08065
