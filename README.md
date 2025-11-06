@@ -163,13 +163,10 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
 论文《How to train your ViT? ...》中新增了超过 5 万个模型检查点（checkpoints），
 你可以使用 [`configs/augreg.py`] 配置文件对这些模型进行微调（fine-tuning）。
 当你仅指定模型名称 ( 即 [`configs/model.py`] 中的 `config.name`参数值)时, 
-系统会自动选择在上游验证集上精度最高的 ImageNet-21k 最优检查点， ("recommended" checkpoint, see
-section 4.5 of the paper) is chosen. To make up your mind which model you want
-to use, have a look at Figure 3 in the paper. It's also possible to choose a
-different checkpoint (see Colab [`vit_jax_augreg.ipynb`]) and then specify the
-value from the `filename` or `adapt_filename` column, which correspond to the
-filenames without `.npz` from the [`gs://vit_models/augreg`] directory.
-
+系统会自动选择在上游验证集上精度最高的 ImageNet-21k 最优权重， 也就是论文第 4.5 节中提到的“推荐（recommended）”模型。
+如果你想了解哪种模型更适合使用，可以参考论文中的 图 3（Figure 3）。
+当然，你也可以手动选择其他权重 (参考 Colab 示例 [`vit_jax_augreg.ipynb`]) 然后从[`gs://vit_models/augreg`] 目录中指定对应的文件名（filename 或 adapt_filename 列中的值，不包括 .npz 后缀）。
+示例命令如下 👇
 ```bash
 python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config=$(pwd)/vit_jax/configs/augreg.py:R_Ti_16 \
