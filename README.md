@@ -232,26 +232,26 @@ Transformer 最终通过这个标记来输出整张图像的分类结果。
 
 ### Available ViT models
 
-We provide a variety of ViT models in different GCS buckets. The models can be
-downloaded with e.g.:
+我们在不同的 GCS（Google Cloud Storage）存储桶 中提供了多种 ViT 模型。
+这些模型可以通过如下命令下载，例如：
 
 ```
 wget https://storage.googleapis.com/vit_models/imagenet21k/ViT-B_16.npz
 ```
 
-The model filenames (without the `.npz` extension) correspond to the
-`config.model_name` in [`vit_jax/configs/models.py`]
+模型文件名 (去掉 `.npz` 后缀) 对应于[`vit_jax/configs/models.py`]文件中的 `config.model_name`参数。
 
-- [`gs://vit_models/imagenet21k`] - Models pre-trained on ImageNet-21k.
-- [`gs://vit_models/imagenet21k+imagenet2012`] - Models pre-trained on
-  ImageNet-21k and fine-tuned on ImageNet.
-- [`gs://vit_models/augreg`] - Models pre-trained on ImageNet-21k,
-  applying varying amounts of [AugReg]. Improved performance.
-- [`gs://vit_models/sam`] - Models pre-trained on ImageNet with [SAM].
-- [`gs://vit_models/gsam`] - Models pre-trained on ImageNet with [GSAM].
+模型存储路径与说明：
+- [`gs://vit_models/imagenet21k`] - 在 ImageNet-21k 数据集上预训练的模型。.
+- [`gs://vit_models/imagenet21k+imagenet2012`] - 在 ImageNet-21k 上预训练，并在 ImageNet-2012（即标准 ImageNet）上微调的模型。
+- [`gs://vit_models/augreg`] - 在 ImageNet-21k 上预训练，并使用 [AugReg]（数据增强与正则化） 技术的模型，性能相比基础版本有明显提升。
+- [`gs://vit_models/sam`] - 在 ImageNet 上使用 [SAM]（Sharpness-Aware Minimization，锐度感知最小化） 优化方法训练的模型。
+- [`gs://vit_models/gsam`] - 在 ImageNet 上使用 [GSAM]（Generalized SAM） 方法训练的模型。
 
-We recommend using the following checkpoints, trained with [AugReg] that have
-the best pre-training metrics:
+我们推荐使用以下采用 [AugReg]（数据增强与正则化） 方法训练的模型权重，这些模型在预训练阶段取得了最优的性能指标。
+**以第一行为例**
+
+**L/16 Vision Transformer（ViT）模型，预训练(在 ImageNet-21k 数据集上训练了 300 个 epoch 的 L/16 模型，并应用了 强数据增强（aug_strong1）、L2 权重衰减（wd=0.1） 等技术,模型大小：1243 MiB（约 1.24 GB）)和微调(在 ImageNet-21k 上预训练 的模型，后续在 ImageNet2012 数据集 上微调了 20,000 步，分辨率为 384x384，并使用了 更小的学习率（lr=0.01） 进行微调),模型在 ImageNet 上的分类性能（准确率为 85.59%），该模型处理图像的速度为 每秒 50 张图像。**
 
 |  Model   |                                   Pre-trained checkpoint                                   |   Size   |                                                       Fine-tuned checkpoint                                                        | Resolution | Img/sec | Imagenet accuracy |
 | :------- | :----------------------------------------------------------------------------------------- | -------: | :--------------------------------------------------------------------------------------------------------------------------------- | ---------: | ------: | ----------------: |
@@ -265,8 +265,9 @@ the best pre-training metrics:
 | S/32     | `gs://vit_models/augreg/S_32-i21k-300ep-lr_0.001-aug_none-wd_0.1-do_0.0-sd_0.0.npz`        |  118 MiB | `gs://vit_models/augreg/S_32-i21k-300ep-lr_0.001-aug_none-wd_0.1-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.01-res_384.npz`        |        384 |    2154 |            79.58% |
 | R+Ti/16  | `gs://vit_models/augreg/R_Ti_16-i21k-300ep-lr_0.001-aug_none-wd_0.03-do_0.0-sd_0.0.npz`    |   40 MiB | `gs://vit_models/augreg/R_Ti_16-i21k-300ep-lr_0.001-aug_none-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_384.npz`    |        384 |    2426 |            75.40% |
 
-The results from the original ViT paper (https://arxiv.org/abs/2010.11929) have
-been replicated using the models from [`gs://vit_models/imagenet21k`]:
+使用 [`gs://vit_models/imagenet21k`] 存储桶中的模型，已经复现了原始ViT论文 (https://arxiv.org/abs/2010.11929) 结果如下:
+
+**这张表格显示了 R50+ViT-B/16 模型在不同数据集（CIFAR-10、CIFAR-100 和 ImageNet2012）上的训练效果，具体包括 dropout 的不同设置（0.0 和 0.1）对模型准确率和训练时间的影响。**
 
 | model        | dataset      | dropout=0.0                                                                                                                                                         | dropout=0.1                                                                                                                                                          |
 |:-------------|:-------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -286,12 +287,9 @@ been replicated using the models from [`gs://vit_models/imagenet21k`]:
 | ViT-L_32     | cifar100     | 93.29%, 1.9h (A100), [tb.dev](https://tensorboard.dev/experiment/nwXQNjudRJW3dtQzhPZwwA/#scalars&regexInput=%5EViT-L_32/cifar100/do_0.0&_smoothingWeight=0)         | 93.34%, 6.2h (V100), [tb.dev](https://tensorboard.dev/experiment/nwXQNjudRJW3dtQzhPZwwA/#scalars&regexInput=%5EViT-L_32/cifar100/do_0.1&_smoothingWeight=0)          |
 | ViT-L_32     | imagenet2012 | 81.89%, 7.5h (A100), [tb.dev](https://tensorboard.dev/experiment/nwXQNjudRJW3dtQzhPZwwA/#scalars&regexInput=%5EViT-L_32/imagenet2012/do_0.0&_smoothingWeight=0)     | 81.13%, 15.0h (V100), [tb.dev](https://tensorboard.dev/experiment/nwXQNjudRJW3dtQzhPZwwA/#scalars&regexInput=%5EViT-L_32/imagenet2012/do_0.1&_smoothingWeight=0)     |
 
-We also would like to emphasize that high-quality results can be achieved with
-shorter training schedules and encourage users of our code to play with
-hyper-parameters to trade-off accuracy and computational budget.
-Some examples for CIFAR-10/100 datasets are presented in the table below.
+我们还希望强调，通过较短的训练周期也可以获得高质量的结果，并鼓励使用我们代码的用户调整超参数，以在**准确度**和**计算预算**之间找到平衡。下面的表格展示了在 CIFAR-10 和 CIFAR-100 数据集上的一些示例。
 
-| upstream    | model    | dataset      | total_steps / warmup_steps  | accuracy | wall-clock time |                                                                         link |
+| upstream(预训练数据集的来源)    | model(模型名称)    | dataset(数据集)      | total_steps / warmup_steps(训练的总步数/热身步数)  | accuracy(分类准确率) | wall-clock time(训练的总时间) |                                                                         link(TensorBoard可视化结果) |
 | ----------- | -------- | ------------ | --------------------------- | -------- | --------------- | ---------------------------------------------------------------------------- |
 | imagenet21k | ViT-B_16 | cifar10      | 500 / 50                    |   98.59% |             17m | [tensorboard.dev](https://tensorboard.dev/experiment/QgkpiW53RPmjkabe1ME31g/) |
 | imagenet21k | ViT-B_16 | cifar10      | 1000 / 100                  |   98.86% |             39m | [tensorboard.dev](https://tensorboard.dev/experiment/w8DQkDeJTOqJW5js80gOQg/) |
