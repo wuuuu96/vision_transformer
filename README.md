@@ -145,8 +145,8 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config.pretrained_dir='gs://vit_models/imagenet21k'
 ```
 
-#### python -m vit_jax.main：运行主训练脚本
-#### --workdir：指定训练结果（如日志与权重）保存路径。这里使用时间戳确保每次运行生成独立目录。
+#### python -m vit_jax.main：运行vit_jax文件夹下的main函数的python脚本
+#### --workdir：生成一个工作目录带时间戳文件夹(如/tmp/vit-1730793635/自 1970年1月1日 00:00:00 UTC（Unix epoch） 起到当前时刻所经过的秒数。)，用于保存训练结果（如日志logs与权重checkpoints）。
 #### --config：加载配置文件并指定模型与数据集（b16,cifar10 表示使用 ViT-B/16 模型、CIFAR-10 数据集）。
 #### --config.pretrained_dir：定义预训练模型存放位置，这里直接从 Google Cloud Storage 读取，而无需本地下载。
 
