@@ -90,12 +90,7 @@ https://colab.research.google.com/github/google-research/vision_transformer/blob
 
 https://colab.research.google.com/github/google-research/vision_transformer/blob/main/vit_jax_augreg.ipynb
 
-****: As for now (6/20/21) Google Colab only supports a single GPU (Nvidia
-Tesla T4), and TPUs (currently TPUv2-8) are attached indirectly to the Colab VM
-and communicate over slow network, which leads to pretty bad training speed. You
-would usually want to set up a dedicated machine if you have a non-trivial
-amount of data to fine-tune on. For details see the
-[Running on cloud](#running-on-cloud) section.
+
 
 ⚠️ 注意事项（截至 2021 年 6 月 20 日）
 
@@ -105,7 +100,7 @@ TPU（TPUv2-8） 与 Colab 虚拟机是通过网络间接连接的，通信延�
 
 若你的微调任务涉及大量数据，建议搭建独立服务器或云端实例；
 
-具体部署方式详见章节(#running-on-cloud)
+具体部署方式详见章节[Running on cloud](#running-on-cloud)
 
 [`timm`]: https://github.com/rwightman/pytorch-image-models
 [sayakpaul/collections/vision_transformer]: https://tfhub.dev/sayakpaul/collections/vision_transformer
@@ -115,7 +110,7 @@ TPU（TPUv2-8） 与 Colab 虚拟机是通过网络间接连接的，通信延�
 
 ## Installation
 
-Make sure you have `Python>=3.10` installed on your machine.
+`Python>=3.10` 
 
 Install JAX and python dependencies by running:
 
@@ -127,7 +122,7 @@ pip install -r vit_jax/requirements.txt
 pip install -r vit_jax/requirements-tpu.txt
 ```
 
-For newer versions of [JAX](https://github.com/google/jax), follow the instructions
+对于新版的 [JAX](https://github.com/google/jax), follow the instructions
 provided in the corresponding repository linked here. Note that installation
 instructions for CPU, GPU and TPU differs slightly.
 
