@@ -136,9 +136,10 @@ pip install -r vit_jax/requirements-tpu.txt
 
 你可以在自己感兴趣的数据集上对下载的模型进行微调（fine-tuning）。所有模型都使用相同的命令行接口。
 
-例如，要在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型
+例如，要**在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型**
 （请注意，我们在配置参数中使用了 b16,cifar10，并通过 --config.pretrained_dir 让代码直接从 GCS 云端存储桶 读取模型，而不是先下载到本地目录）：
 
+**在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型**
 ```bash
 python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config=$(pwd)/vit_jax/configs/vit.py:b16,cifar10 \
@@ -146,9 +147,10 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
 ```
 
 #### python -m vit_jax.main：运行vit_jax文件夹下的main函数的python脚本
-#### --workdir：生成一个工作目录带时间戳文件夹(如/tmp/vit-1730793635/自 1970年1月1日 00:00:00 UTC（Unix epoch） 起到当前时刻所经过的秒数。)，用于保存训练结果（如日志logs与权重checkpoints）。
-#### --config：加载配置文件并指定模型与数据集（b16,cifar10 表示使用 ViT-B/16 模型、CIFAR-10 数据集）。
-#### --config.pretrained_dir：定义预训练模型存放位置，这里直接从 Google Cloud Storage 读取，而无需本地下载。
+#### --workdir：生成一个工作目录带时间戳文件夹(如/tmp/vit-1730793635/，其中1730793635就表示自1970年1月1日00:00:00 UTC（Unix epoch）起到当前时刻所经过的秒数。从而确保确文件夹的唯一性与可追溯性)，用于保存训练结果（如日志logs与权重checkpoints）。
+#### --config：指定模型与数据集的配置文件路径，$(pwd) 表示当前工作目录路径，有当前工作目录路径/vit_jax/configs/vit.py文件,
+###            b16：代表 ViT-B/16 模型结构,“B” 表示 Base 模型,“16” 表示图像被划分为 16×16 的 Patch 大小；cifar10：表示使用 CIFAR-10 数据集 进行训练或微调。
+#### --config.pretrained_dir：定义预训练模型权重的路径，这里直接从 Google Cloud Storage 读取，而无需本地下载。
 
 In order to fine-tune a Mixer-B/16 (pre-trained on imagenet21k) on CIFAR10:
 
