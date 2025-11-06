@@ -214,19 +214,21 @@ datasets library](https://github.com/tensorflow/datasets/).
 
 ## Vision Transformer
 
-by Alexey Dosovitskiy\*†, Lucas Beyer\*, Alexander Kolesnikov\*, Dirk
-Weissenborn\*, Xiaohua Zhai\*, Thomas Unterthiner, Mostafa Dehghani, Matthias
-Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit and Neil Houlsby\*†.
+作者：Alexey Dosovitskiy*†、Lucas Beyer*、Alexander Kolesnikov*、Dirk Weissenborn*、Xiaohua Zhai*、Thomas Unterthiner、Mostafa Dehghani、Matthias Minderer、Georg Heigold、Sylvain Gelly、Jakob Uszkoreit 和 Neil Houlsby*†。
 
-(\*) equal technical contribution, (†) equal advising.
+（*）表示技术贡献相同；（†）表示共同指导。
 
 ![Figure 1 from paper](vit_figure.png)
 
-Overview of the model: we split an image into fixed-size patches, linearly embed
-each of them, add position embeddings, and feed the resulting sequence of
-vectors to a standard Transformer encoder. In order to perform classification,
-we use the standard approach of adding an extra learnable "classification token"
-to the sequence.
+模型概述：
+我们将一张图像划分为**固定大小的图像块（patches）**，
+对每个图像块进行**线性嵌入（linear embedding）**，
+再**加入位置嵌入（position embeddings）**，
+然后将得到的向量序列输入到一个**标准的 Transformer 编码器**中。
+
+为了实现图像分类，我们采用标准做法 —— 在输入序列前**添加一个可学习的“分类标记（classification token）”**，
+Transformer 最终通过这个标记来输出整张图像的分类结果。
+
 
 ### Available ViT models
 
