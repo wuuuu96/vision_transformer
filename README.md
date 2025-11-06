@@ -145,8 +145,11 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config.pretrained_dir='gs://vit_models/imagenet21k'
 ```
 
-### python -m vit_jax.main：运行主训练脚本
-### --workdir：指定训练结果（如日志与权重）保存路径。这里使用时间戳确保每次运行生成独立目录。
+#### python -m vit_jax.main：运行主训练脚本
+#### --workdir：指定训练结果（如日志与权重）保存路径。这里使用时间戳确保每次运行生成独立目录。
+#### --config：加载配置文件并指定模型与数据集（b16,cifar10 表示使用 ViT-B/16 模型、CIFAR-10 数据集）。
+#### --config.pretrained_dir：定义预训练模型存放位置，这里直接从 Google Cloud Storage 读取，而无需本地下载。
+
 In order to fine-tune a Mixer-B/16 (pre-trained on imagenet21k) on CIFAR10:
 
 ```bash
