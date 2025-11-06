@@ -146,11 +146,11 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config.pretrained_dir='gs://vit_models/imagenet21k'
 ```
 
-#### python -m vit_jax.main：运行vit_jax文件夹下的main函数的python脚本
-#### --workdir：生成一个工作目录带时间戳文件夹(如/tmp/vit-1730793635/，其中1730793635就表示自1970年1月1日00:00:00 UTC（Unix epoch）起到当前时刻所经过的秒数。从而确保确文件夹的唯一性与可追溯性)，用于保存训练结果（如日志logs与权重checkpoints）。
-#### --config：指定模型与数据集的配置文件路径，$(pwd) 表示当前工作目录路径，有当前工作目录路径/vit_jax/configs/vit.py文件,
-####            b16：代表 ViT-B/16 模型结构,“B” 表示 Base 模型,“16” 表示图像被划分为 16×16 的 Patch 大小；cifar10：表示使用 CIFAR-10 数据集 进行训练或微调。
-#### --config.pretrained_dir：定义预训练模型权重的路径，这里直接从 Google Cloud Storage 读取，而无需本地下载。
+python -m vit_jax.main：运行vit_jax文件夹下的main函数的python脚本
+--workdir：生成一个工作目录带时间戳文件夹(如/tmp/vit-1730793635/，其中1730793635就表示自1970年1月1日00:00:00 UTC（Unix epoch）起到当前时刻所经过的秒数。从而确保确文件夹的唯一性与可追溯性)，用于保存训练结果（如日志logs与权重checkpoints）。
+--config：指定模型与数据集的配置文件路径，$(pwd) 表示当前工作目录路径，有当前工作目录路径/vit_jax/configs/vit.py文件,
+          b16：代表 ViT-B/16 模型结构,“B” 表示 Base 模型,“16” 表示图像被划分为 16×16 的 Patch 大小；cifar10：表示使用 CIFAR-10 数据集 进行训练或微调。
+--config.pretrained_dir：定义预训练模型权重的路径，这里直接从 Google Cloud Storage 读取，而无需本地下载。
 
 **要在 CIFAR-10 数据集 上微调一个在 ImageNet-21k 上预训练过的 Mixer-B/16 模型:使用如下命令**
 
@@ -162,8 +162,8 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
 
 论文《How to train your ViT? ...》中新增了超过 5 万个模型检查点（checkpoints），
 你可以使用 [`configs/augreg.py`] 配置文件对这些模型进行微调（fine-tuning）。
-name (the `config.name` value from [`configs/model.py`]), then the best i21k
-checkpoint by upstream validation accuracy ("recommended" checkpoint, see
+当你仅指定模型名称 ( 即 [`configs/model.py`] 中的 `config.name`参数值)时, 
+系统会自动选择在上游验证集上精度最高的 ImageNet-21k 最优检查点， ("recommended" checkpoint, see
 section 4.5 of the paper) is chosen. To make up your mind which model you want
 to use, have a look at Figure 3 in the paper. It's also possible to choose a
 different checkpoint (see Colab [`vit_jax_augreg.ipynb`]) and then specify the
