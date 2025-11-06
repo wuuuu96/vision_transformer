@@ -139,7 +139,7 @@ pip install -r vit_jax/requirements-tpu.txt
 例如，要**在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型**
 （请注意，我们在配置参数中使用了 b16,cifar10，并通过 --config.pretrained_dir 让代码直接从 GCS 云端存储桶 读取模型，而不是先下载到本地目录）：
 
-**在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型:使用如下命令**
+**在 CIFAR-10 数据集上微调一个在 ImageNet-21k 上预训练过的 ViT-B/16 模型:使用如下命令👇**
 ```bash
 python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config=$(pwd)/vit_jax/configs/vit.py:b16,cifar10 \
@@ -152,7 +152,7 @@ python -m vit_jax.main：运行vit_jax文件夹下的main函数的python脚本
           b16：代表 ViT-B/16 模型结构,“B” 表示 Base 模型,“16” 表示图像被划分为 16×16 的 Patch 大小；cifar10：表示使用 CIFAR-10 数据集 进行训练或微调。
 --config.pretrained_dir：定义预训练模型权重的路径，这里直接从 Google Cloud Storage 读取，而无需本地下载。
 
-**要在 CIFAR-10 数据集 上微调一个在 ImageNet-21k 上预训练过的 Mixer-B/16 模型:使用如下命令**
+**要在 CIFAR-10 数据集 上微调一个在 ImageNet-21k 上预训练过的 Mixer-B/16 模型:使用如下命令👇**
 
 ```bash
 python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
@@ -160,41 +160,56 @@ python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config.pretrained_dir='gs://mixer_models/imagenet21k'
 ```
 
-论文《How to train your ViT? ...》中新增了超过 5 万个模型检查点（checkpoints），
+论文《How to train your ViT? ...》中新增了超过 5 万个模型权重（checkpoints）的预训练模型，
 你可以使用 [`configs/augreg.py`] 配置文件对这些模型进行微调（fine-tuning）。
 当你仅指定模型名称 ( 即 [`configs/model.py`] 中的 `config.name`参数值)时, 
 系统会自动选择在上游验证集上精度最高的 ImageNet-21k 最优权重， 也就是论文第 4.5 节中提到的“推荐（recommended）”模型。
 如果你想了解哪种模型更适合使用，可以参考论文中的 图 3（Figure 3）。
-当然，你也可以手动选择其他权重 (参考 Colab 示例 [`vit_jax_augreg.ipynb`]) 然后从[`gs://vit_models/augreg`] 目录中指定对应的文件名（filename 或 adapt_filename 列中的值，不包括 .npz 后缀）。
-示例命令如下 👇
+当然，你也可以手动指定其他预训练权重文件， (参考 Colab 示例 [`vit_jax_augreg.ipynb`]) 
+具体方法是：到[`gs://vit_models/augreg`] 目录查找想要的模型文件名（去掉 .npz 后缀），然后在命令中通过 --config.pretrained_dir 参数告诉程序加载它。
+
+**运行 ViT-JAX 主训练脚本，模型结构是 R_Ti_16，数据集是Oxford-IIIT Pet 👇**
 ```bash
 python -m vit_jax.main --workdir=/tmp/vit-$(date +%s) \
     --config=$(pwd)/vit_jax/configs/augreg.py:R_Ti_16 \
     --config.dataset=oxford_iiit_pet \
     --config.base_lr=0.01
 ```
+如果还要加指令可以加 
 
-Currently, the code will automatically download CIFAR-10 and CIFAR-100 datasets.
-Other public or custom datasets can be easily integrated, using [tensorflow
-datasets library](https://github.com/tensorflow/datasets/). Note that you will
-also need to update `vit_jax/input_pipeline.py` to specify some parameters about
-any added dataset.
+自己指定的预训练权重 --config.pretrained_dir='gs://vit_models/augreg/B_16_i21k_ft1k'（来自 gs://vit_models/augreg/ 目录）
 
-Note that our code uses all available GPUs/TPUs for fine-tuning.
+批量大小：--config.batch_size=256
 
-To see a detailed list of all available flags, run `python3 -m vit_jax.train
+训练步数：--config.total_steps=20000
+
+权重衰减（L2 正则化）：--config.weight_decay=0.0001
+
+输出间隔：--config.log_every_steps=100
+
+如果要训练直接数据集，可以加上项目两行
+
+--config.dataset=my_dataset #用 ImageNet 格式加载我的自定义数据集
+
+--config.dataset_dir=/home/ws/datasets/my_dataset #自己数据集的目录
+
+
+目前，代码会自动下载 CIFAR-10 和 CIFAR-100 数据集。
+他公共数据集或自定义数据集也可以很容易地集成，只需使用 [tensorflow
+datasets library](https://github.com/tensorflow/datasets/). 
+请注意，如果你添加了新的数据集，还需要修改 `vit_jax/input_pipeline.py` 文件，以指定该数据集的一些相关参数（如图像大小、通道数、类别数等）。
+
+代码在微调（fine-tuning）时会自动使用所有可用的 GPU 或 TPU。
+
+要查看所有可用的命令行参数（flags），可以运行： `python3 -m vit_jax.train
 --help`.
 
-Notes on memory:
+内存使用说明：
 
-- Different models require different amount of memory. Available memory also
-  depends on the accelerator configuration (both type and count). If you
-  encounter an out-of-memory error you can increase the value of
-  `--config.accum_steps=8` -- alternatively, you could also decrease the
-  `--config.batch=512` (and decrease `--config.base_lr` accordingly).
-- The host keeps a shuffle buffer in memory. If you encounter a host OOM (as
-  opposed to an accelerator OOM), you can decrease the default
-  `--config.shuffle_buffer=50000`.
+- 不同模型对内存的需求不同。实际可用内存还取决于加速器（GPU/TPU）的类型和数量。如果遇到 显存不足（out-of-memory, OOM） 错误，可以：
+  增大（梯度累积步数）`--config.accum_steps=8`，以降低单步显存占用或减小`--config.batch=512` （批量大小）(同时相应地降低 `--config.base_lr` 学习率).
+- 主机（host）在内存中会维护一个数据打乱缓冲区（shuffle buffer）。
+  如果出现 主机内存不足（host OOM），而不是显卡显存不足，可以适当减小默认的`--config.shuffle_buffer=50000`的值
 
 
 ## Vision Transformer
